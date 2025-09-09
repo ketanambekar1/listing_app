@@ -15,8 +15,8 @@ class ProfileView extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Obx(
-          () => Scaffold(
-        appBar:  AppBar(title: Text('Profile'),),
+      () => Scaffold(
+        appBar: AppBar(title: Text('Profile')),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -78,14 +78,21 @@ class ProfileView extends StatelessWidget {
                 ),
                 elevation: 2,
                 child: ListTile(
-                  leading: Icon(Icons.settings, color: theme.colorScheme.primary),
-                  title: Text("account_settings".tr),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: () {
-                    // Later: Navigate to settings
-                  },
+                  leading: Icon(Icons.login_outlined, color: theme.colorScheme.primary),
+                  title: Text("Logout".tr),
                 ),
               ),
+              const SizedBox(height: 12),
+              Obx(() {
+                final info = c.appInfoService.info;
+                if (info == null) {
+                  return const CircularProgressIndicator();
+                }
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [Text('- v${info.version}(${info.buildNumber}) -')],
+                );
+              }),
             ],
           ),
         ),

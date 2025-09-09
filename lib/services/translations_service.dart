@@ -16,6 +16,8 @@ class AppTranslations extends Translations {
       'account_settings': 'Account Settings',
       'phone': 'Phone',
       'email': 'Email',
+      'topService': 'Top Services',
+
     },
     'ar': {
       'home': 'الرئيسية',
@@ -30,6 +32,7 @@ class AppTranslations extends Translations {
       'account_settings': 'إعدادات الحساب',
       'phone': 'الهاتف',
       'email': 'البريد الإلكتروني',
+      'topService': 'أفضل الخدمات',
     }
   };
 }

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:listing_app/services/app_info_service.dart';
 
 class ProfileController extends GetxController {
   // Hardcoded data for now (later you’ll fetch from API / GetStorage)
@@ -6,4 +7,5 @@ class ProfileController extends GetxController {
   final userEmail = "john.doe@example.com".obs;
   final userPhone = "+1 987 654 3210".obs;
   final userImage = "https://i.pravatar.cc/150?img=3".obs; // dummy avatar
+  final AppInfoService appInfoService = Get.find<AppInfoService>();
 }
