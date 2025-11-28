@@ -25,10 +25,7 @@ class DashboardView extends StatelessWidget {
 
     return Obx(
       () => Scaffold(
-        appBar: AppHeader(
-          titleKey: c.titles[c.selectedIndex.value],
-          onProfileTap: () => Get.toNamed(AppRoutes.profile),
-        ),
+        appBar: AppHeader(titleKey: c.titles[c.selectedIndex.value], onProfileTap: () => Get.toNamed(AppRoutes.profile)),
         body: _pages[c.selectedIndex.value],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: c.selectedIndex.value,
@@ -37,18 +34,9 @@ class DashboardView extends StatelessWidget {
           selectedItemColor: theme.colorScheme.primary,
           unselectedItemColor: theme.unselectedWidgetColor,
           items: [
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
-              label: "home".tr,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.search),
-              label: "search".tr,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.list),
-              label: "more".tr,
-            ),
+            BottomNavigationBarItem(icon: const Icon(Icons.home), label: "home".tr),
+            BottomNavigationBarItem(icon: const Icon(Icons.search), label: "search".tr),
+            BottomNavigationBarItem(icon: const Icon(Icons.list), label: "more".tr),
           ],
         ),
       ),
@@ -72,26 +60,16 @@ class _HomeSection extends StatelessWidget {
             },
           ),
         ),
-        CategoryGrid(),
+        const SizedBox(height: 20),
         BannerCarousel(
           banners: [
-            BannerItem(
-              imageUrl: "https://picsum.photos/800/400?1",
-              title: "Fast Delivery",
-              subtitle: "Get your items quickly",
-            ),
-            BannerItem(
-              imageUrl: "https://picsum.photos/800/400?2",
-              title: "Best Discounts",
-              subtitle: "Save more on every purchase",
-            ),
-            BannerItem(
-              imageUrl: "https://picsum.photos/800/400?3",
-              title: "24/7 Support",
-              subtitle: "We are here for you anytime",
-            ),
+            BannerItem(imageUrl: "https://picsum.photos/800/400?1", title: "Fast Delivery", subtitle: "Get your items quickly"),
+            BannerItem(imageUrl: "https://picsum.photos/800/400?2", title: "Best Discounts", subtitle: "Save more on every purchase"),
+            BannerItem(imageUrl: "https://picsum.photos/800/400?3", title: "24/7 Support", subtitle: "We are here for you anytime"),
           ],
         ),
+        const SizedBox(height: 20),
+        CategoryGrid(),
         const SizedBox(height: 20),
         SectionTitle(title: "featured_products".tr),
         HorizontalProductList(products: products),
@@ -102,43 +80,35 @@ class _HomeSection extends StatelessWidget {
           categories: [
             CategoryItemData(
               title: getCategoryLabel(context, "Food"),
-              image:
-                  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600", // burger
+              image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600", // burger
             ),
             CategoryItemData(
               title: getCategoryLabel(context, "Travel"),
-              image:
-                  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600", // beach
+              image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600", // beach
             ),
             CategoryItemData(
               title: getCategoryLabel(context, "Music"),
-              image:
-                  "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600", // concert
+              image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600", // concert
             ),
             CategoryItemData(
               title: getCategoryLabel(context, "Shopping"),
-              image:
-                  "https://images.unsplash.com/photo-1542831371-d531d36971e6?w=600", // mall
+              image: "https://images.unsplash.com/photo-1542831371-d531d36971e6?w=600", // mall
             ),
             CategoryItemData(
               title: getCategoryLabel(context, "Pets"),
-              image:
-                  "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=600", // dog
+              image: "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=600", // dog
             ),
             CategoryItemData(
               title: getCategoryLabel(context, "Movies"),
-              image:
-                  "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?w=600", // cinema
+              image: "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?w=600", // cinema
             ),
             CategoryItemData(
               title: getCategoryLabel(context, "Books"),
-              image:
-                  "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600", // library
+              image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600", // library
             ),
             CategoryItemData(
               title: getCategoryLabel(context, "Sports"),
-              image:
-                  "https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf?w=600", // football
+              image: "https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf?w=600", // football
             ),
           ],
         ),
@@ -151,65 +121,55 @@ final products = [
   ProductItemData(
     title: getProductTitle(Get.context!, "Running Shoes"),
     price: "\$89",
-    image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600", // shoes
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600", // shoes
   ),
   ProductItemData(
     title: getProductTitle(Get.context!, "Gaming Laptop"),
     price: "\$999",
-    image:
-        "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600", // laptop
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600", // laptop
   ),
   ProductItemData(
     title: getProductTitle(Get.context!, "Bluetooth Speaker"),
     price: "\$49",
-    image:
-        "https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=600", // speaker
+    image: "https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=600", // speaker
   ),
 
   ProductItemData(
     title: getProductTitle(Get.context!, "Smartphone"),
     price: "\$799",
-    image:
-        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600", // phone
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600", // phone
   ),
   ProductItemData(
     title: getProductTitle(Get.context!, "Sunglasses"),
     price: "\$29",
-    image:
-        "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600", // glasses
+    image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600", // glasses
   ),
   ProductItemData(
     title: getProductTitle(Get.context!, "Backpack"),
     price: "\$45",
-    image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600", // backpack
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600", // backpack
   ),
   ProductItemData(
     title: getProductTitle(Get.context!, "Tablet Pro"),
     price: "\$499",
-    image:
-        "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=600", // tablet
+    image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=600", // tablet
   ),
   ProductItemData(
     title: getProductTitle(Get.context!, "Coffee Maker"),
     price: "\$99",
-    image:
-        "https://images.unsplash.com/photo-1509460913899-515f1df34fea?w=600", // coffee machine
+    image: "https://images.unsplash.com/photo-1509460913899-515f1df34fea?w=600", // coffee machine
   ),
 
   ProductItemData(
     title: getProductTitle(Get.context!, "Desk Lamp"),
     price: "\$45",
-    image:
-        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600", // lamp
+    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600", // lamp
   ),
 
   ProductItemData(
     title: getProductTitle(Get.context!, "Travel Backpack"),
     price: "\$79",
-    image:
-        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600", // backpack
+    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600", // backpack
   ),
 ];
 final Map<String, Map<String, String>> categoryTranslations = {
@@ -228,7 +188,6 @@ String getCategoryLabel(BuildContext context, String key) {
   final locale = _themeService.locale.languageCode;
   return categoryTranslations[key]?[locale] ?? key;
 }
-
 
 final Map<String, Map<String, String>> productTranslations = {
   "Running Shoes": {"en": "Running Shoes", "ar": "أحذية جري"},
