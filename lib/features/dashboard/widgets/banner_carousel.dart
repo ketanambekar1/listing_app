@@ -10,7 +10,7 @@ class BannerCarousel extends StatelessWidget {
   const BannerCarousel({
     super.key,
     required this.banners,
-    this.height = 160,
+    this.height = 200,
     this.autoScrollDelay = const Duration(seconds: 3),
   });
 
