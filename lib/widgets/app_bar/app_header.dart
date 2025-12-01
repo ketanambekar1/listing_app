@@ -20,33 +20,30 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-      child: AppBar(
-        backgroundColor: theme.scaffoldBackgroundColor,
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.person, color: theme.iconTheme.color),
-          onPressed: onProfileTap,
-        ),
-        title:
-        Text(
-          titleKey.tr, // 🔑 translated title
-          style: GoogleFonts.pacifico(
-            textStyle: theme.textTheme.titleLarge?.copyWith(
-              fontSize: 24,
-              color: theme.textTheme.titleLarge?.color,
-            ),
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications, color: theme.iconTheme.color),
-            onPressed: onNotificationTap,
-          ),
-        ],
+    return AppBar(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      elevation: 0,
+      centerTitle: true,
+      leading: IconButton(
+        icon: Icon(Icons.person, color: theme.iconTheme.color),
+        onPressed: onProfileTap,
       ),
+      title:
+      Text(
+        titleKey.tr, // 🔑 translated title
+        style: GoogleFonts.pacifico(
+          textStyle: theme.textTheme.titleLarge?.copyWith(
+            fontSize: 24,
+            color: theme.textTheme.titleLarge?.color,
+          ),
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.notifications, color: theme.iconTheme.color),
+          onPressed: onNotificationTap,
+        ),
+      ],
     );
   }
 

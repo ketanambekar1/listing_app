@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           textDirection: _themeService.locale.languageCode == 'ar'
               ? TextDirection.rtl
               : TextDirection.ltr,
-          child: SafeArea(child: child!),
+          child: child!,
         );
       },
     );

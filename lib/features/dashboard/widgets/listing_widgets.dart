@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:listing_app/data/models/feature_product_items.dart';
 
 /// Section Title
 class SectionTitle extends StatelessWidget {
@@ -21,21 +22,11 @@ class SectionTitle extends StatelessWidget {
 /// Banner Carousel (simple horizontal scroll)
 
 /// Product Item Data
-class ProductItemData {
-  final String title;
-  final String price;
-  final String image;
 
-  ProductItemData({
-    required this.title,
-    required this.price,
-    required this.image,
-  });
-}
 
 /// Horizontal Product List
 class HorizontalProductList extends StatelessWidget {
-  final List<ProductItemData> products;
+  final List<FeatureProductItemData> products;
   const HorizontalProductList({super.key, required this.products});
 
   @override
@@ -76,7 +67,7 @@ class HorizontalProductList extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(p.title, style: Theme.of(context).textTheme.bodyMedium),
+                Text(p.getTitle(), style: Theme.of(context).textTheme.bodyMedium),
                 Text(
                   p.price,
                   style: Theme.of(
