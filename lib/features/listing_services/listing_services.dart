@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:listing_app/data/models/categories_listing.dart';
 import 'package:listing_app/features/listing_services/listing_service_controller.dart';
 
-
 class ServiceListPage extends StatelessWidget {
   final String categoryName;
   final int categoryId;
@@ -21,20 +20,24 @@ class ServiceListPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Obx(() => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(categoryName, style: theme.textTheme.titleLarge),
-            Text("${c.filtered.length} providers",
-                style: theme.textTheme.bodySmall),
-          ],
-        )),
+        title: Obx(
+          () => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(categoryName, style: theme.textTheme.titleLarge),
+              Text(
+                "${c.filtered.length} providers",
+                style: theme.textTheme.bodySmall,
+              ),
+            ],
+          ),
+        ),
         leading: BackButton(),
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list_rounded),
             onPressed: () => _openFilterSheet(context, c),
-          )
+          ),
         ],
       ),
 
@@ -53,12 +56,13 @@ class ServiceListPage extends StatelessWidget {
                 itemBuilder: (_, i) => ServiceCard(data: c.filtered[i]),
               );
             }),
-          )
+          ),
         ],
       ),
     );
   }
 }
+
 Widget _buildSearchAndTagRow(BuildContext context, ServiceController c) {
   final theme = Theme.of(context);
 
@@ -85,8 +89,7 @@ Widget _buildSearchAndTagRow(BuildContext context, ServiceController c) {
                 children: [
                   Icon(Icons.search, color: theme.iconTheme.color),
                   const SizedBox(width: 8),
-                  Text("Search providers",
-                      style: theme.textTheme.bodyMedium),
+                  Text("Search providers", style: theme.textTheme.bodyMedium),
                 ],
               ),
             ),
@@ -96,22 +99,25 @@ Widget _buildSearchAndTagRow(BuildContext context, ServiceController c) {
         const SizedBox(width: 10),
 
         // TAG DROPDOWN
-        Obx(() => DropdownButtonHideUnderline(
-          child: DropdownButton<String>(
-            value: c.selectedTag.value,
-            items: const [
-              DropdownMenuItem(value: "All", child: Text("All")),
-              DropdownMenuItem(value: "Verified", child: Text("Verified")),
-              DropdownMenuItem(value: "Top Rated", child: Text("Top Rated")),
-              DropdownMenuItem(value: "Trusted", child: Text("Trusted")),
-            ],
-            onChanged: (v) => c.updateTag(v!),
+        Obx(
+          () => DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: c.selectedTag.value,
+              items: const [
+                DropdownMenuItem(value: "All", child: Text("All")),
+                DropdownMenuItem(value: "Verified", child: Text("Verified")),
+                DropdownMenuItem(value: "Top Rated", child: Text("Top Rated")),
+                DropdownMenuItem(value: "Trusted", child: Text("Trusted")),
+              ],
+              onChanged: (v) => c.updateTag(v!),
+            ),
           ),
-        )),
+        ),
       ],
     ),
   );
 }
+
 void _openFilterSheet(BuildContext context, ServiceController c) {
   showModalBottomSheet(
     context: context,
@@ -129,18 +135,20 @@ void _openFilterSheet(BuildContext context, ServiceController c) {
             Wrap(
               spacing: 8,
               children: ["Recommended", "Rating", "Reviews", "Experience"]
-                  .map((s) => ChoiceChip(
-                label: Text(s),
-                selected: c.sortBy.value == s,
-                onSelected: (_) => c.updateSort(s),
-              ))
+                  .map(
+                    (s) => ChoiceChip(
+                      label: Text(s),
+                      selected: c.sortBy.value == s,
+                      onSelected: (_) => c.updateSort(s),
+                    ),
+                  )
                   .toList(),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
               child: const Text("Apply"),
-            )
+            ),
           ],
         ),
       );
@@ -152,6 +160,9 @@ class ServiceCard extends StatelessWidget {
   final CategoriesListingItem data;
 
   const ServiceCard({super.key, required this.data});
+
+  static const String fallbackImage =
+      "https://via.placeholder.com/600x400?text=No+Image";
 
   @override
   Widget build(BuildContext context) {
@@ -172,42 +183,71 @@ class ServiceCard extends StatelessWidget {
         ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // IMAGE
+          // IMAGE FIXED ✔
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(
-              data.mainImage,
+            child: SizedBox(
               height: 90,
               width: 110,
-              fit: BoxFit.cover,
+              child: Image.network(
+                data.mainImage,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) =>
+                    Image.network(fallbackImage, fit: BoxFit.cover),
+                loadingBuilder: (_, child, progress) {
+                  if (progress == null) return child;
+                  return Container(
+                    color: Colors.grey.shade200,
+                    child: const Center(
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
 
           const SizedBox(width: 12),
 
-          // INFO
+          // INFO FIXED ✔ (No overflow)
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(data.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.titleMedium),
+                // TITLE (Safe)
+                Text(
+                  data.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
 
                 const SizedBox(height: 6),
 
-                Text(data.descriptionEn,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodySmall),
+                // SUBTITLE / DESCRIPTION (Safe)
+                Text(
+                  data.descriptionEn,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.hintColor,
+                  ),
+                ),
 
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
 
-                Text("\$${data.price}",
-                    style: theme.textTheme.titleMedium?.copyWith(
-                        color: theme.colorScheme.primary)),
+                // PRICE (Safe)
+                Text(
+                  "\$${data.price}",
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ),
@@ -245,7 +285,7 @@ class ServiceSearchPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () => Navigator.pop(context, c.text.trim()),
               child: const Text("Search"),
-            )
+            ),
           ],
         ),
       ),
