@@ -26,7 +26,8 @@ class CategoryGrid extends StatelessWidget {
           ),
           itemCount: 16,
           itemBuilder: (_, __) => const CategoryShimmer(),
-        );;
+        );
+        ;
       }
 
       final categories = controller.categories;
@@ -61,7 +62,9 @@ class CategoryGrid extends StatelessWidget {
                 Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black87,
             shadowColor: Colors.black12,
             onTap: () {
-              Get.to(() => ServiceListPage(category: label));
+              Get.to(
+                () => ServiceListPage(categoryName: label, categoryId: cat.id),
+              );
             },
           );
         },
