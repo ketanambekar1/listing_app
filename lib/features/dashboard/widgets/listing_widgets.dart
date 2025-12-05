@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:listing_app/data/models/feature_product_items.dart';
+import 'package:listing_app/routes/app_pages.dart';
 
 /// Section Title
 class SectionTitle extends StatelessWidget {
@@ -23,7 +25,6 @@ class SectionTitle extends StatelessWidget {
 
 /// Product Item Data
 
-
 /// Horizontal Product List
 class HorizontalProductList extends StatelessWidget {
   final List<FeatureProductItemData> products;
@@ -39,42 +40,53 @@ class HorizontalProductList extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(width: 12),
         itemBuilder: (_, i) {
           final p = products[i];
-          return Container(
-            width: 150,
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: Theme.of(context).cardColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 5,
-                  offset: const Offset(2, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      p.image,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
+          return GestureDetector(
+            onTap: () {
+              Get.toNamed(
+                AppRoutes.productDetailPage,
+                arguments: {'productId': p.id},
+              );
+            },
+            child: Container(
+              width: 150,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Theme.of(context).cardColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 5,
+                    offset: const Offset(2, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        p.image,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(p.getTitle(), style: Theme.of(context).textTheme.bodyMedium),
-                Text(
-                  p.price,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  Text(
+                    p.getTitle(),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  Text(
+                    p.price,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
@@ -82,6 +94,3 @@ class HorizontalProductList extends StatelessWidget {
     );
   }
 }
-
-
-

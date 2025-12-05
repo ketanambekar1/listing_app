@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:listing_app/features/dashboard/dashboard_controller.dart';
 import 'package:listing_app/features/listing_services/listing_services.dart';
+import 'package:listing_app/routes/app_pages.dart';
 import 'package:listing_app/theme/theme_service.dart';
 import 'package:listing_app/utils/random_ui.dart';
 import 'package:listing_app/widgets/shimmer_widgets/category_shimmer.dart';
@@ -62,8 +63,9 @@ class CategoryGrid extends StatelessWidget {
                 Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black87,
             shadowColor: Colors.black12,
             onTap: () {
-              Get.to(
-                () => ServiceListPage(categoryName: label, categoryId: cat.id),
+              Get.toNamed(
+                AppRoutes.serviceListPage,
+                arguments: {'categoryName': label, 'categoryId': cat.id},
               );
             },
           );

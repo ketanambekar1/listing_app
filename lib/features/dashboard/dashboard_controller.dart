@@ -13,7 +13,7 @@ class DashboardController extends GetxController {
   var categories = <CategoryItem>[].obs;
   var isLoading = false.obs;
 
-  final titles = ["Listing App", "Search", "More"];
+  final titles = ["Classified App", "Search", "More"];
 
   @override
   void onInit() {

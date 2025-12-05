@@ -10,4 +10,6 @@ class ApiConstants {
   static const String featureProducts = "/items/feature_products";
   static const String productsByCategory =
       "/items/products?filter[category_id][_eq]=";
+  static const String productsDetailsById =
+      "/items/products/";
 }

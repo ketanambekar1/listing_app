@@ -2,20 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:listing_app/data/models/categories_listing.dart';
 import 'package:listing_app/features/listing_services/listing_service_controller.dart';
+import 'package:listing_app/routes/app_pages.dart';
+import 'package:listing_app/widgets/app_no_data_widget.dart';
 
 class ServiceListPage extends StatelessWidget {
-  final String categoryName;
-  final int categoryId;
-
-  const ServiceListPage({
-    super.key,
-    required this.categoryName,
-    required this.categoryId,
-  });
+  const ServiceListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final c = Get.put(ServiceController(categoryId));
+    final c = Get.put(ServiceController(Get.arguments['categoryId']));
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -24,7 +19,10 @@ class ServiceListPage extends StatelessWidget {
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(categoryName, style: theme.textTheme.titleLarge),
+              Text(
+                Get.arguments['categoryName'],
+                style: theme.textTheme.titleLarge,
+              ),
               Text(
                 "${c.filtered.length} providers",
                 style: theme.textTheme.bodySmall,
@@ -48,7 +46,9 @@ class ServiceListPage extends StatelessWidget {
           Expanded(
             child: Obx(() {
               if (c.filtered.isEmpty) {
-                return Center(child: Text("No data found"));
+                return  const NoDataWidget(
+                  message: "No products available right now!",
+                );
               }
               return ListView.builder(
                 padding: const EdgeInsets.all(12),
@@ -168,90 +168,95 @@ class ServiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
-      padding: const EdgeInsets.all(12),
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: theme.shadowColor.withOpacity(0.04),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // IMAGE FIXED ✔
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: SizedBox(
-              height: 90,
-              width: 110,
-              child: Image.network(
-                data.mainImage,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) =>
-                    Image.network(fallbackImage, fit: BoxFit.cover),
-                loadingBuilder: (_, child, progress) {
-                  if (progress == null) return child;
-                  return Container(
-                    color: Colors.grey.shade200,
-                    child: const Center(
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                  );
-                },
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(AppRoutes.productDetailPage, arguments: {'productId': data.id});
+      },
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: theme.cardColor,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(
+              color: theme.shadowColor.withOpacity(0.04),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // IMAGE FIXED ✔
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: SizedBox(
+                height: 90,
+                width: 110,
+                child: Image.network(
+                  data.mainImage,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) =>
+                      Image.network(fallbackImage, fit: BoxFit.cover),
+                  loadingBuilder: (_, child, progress) {
+                    if (progress == null) return child;
+                    return Container(
+                      color: Colors.grey.shade200,
+                      child: const Center(
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-          ),
 
-          const SizedBox(width: 12),
+            const SizedBox(width: 12),
 
-          // INFO FIXED ✔ (No overflow)
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // TITLE (Safe)
-                Text(
-                  data.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+            // INFO FIXED ✔ (No overflow)
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // TITLE (Safe)
+                  Text(
+                    data.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 6),
+                  const SizedBox(height: 6),
 
-                // SUBTITLE / DESCRIPTION (Safe)
-                Text(
-                  data.descriptionEn,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.hintColor,
+                  // SUBTITLE / DESCRIPTION (Safe)
+                  Text(
+                    data.descriptionEn,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.hintColor,
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                // PRICE (Safe)
-                Text(
-                  "\$${data.price}",
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.bold,
+                  // PRICE (Safe)
+                  Text(
+                    "\$${data.price}",
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
